@@ -2,29 +2,30 @@
   "timeZone": "America/New_York",
   "exceptionLogging": "STACKDRIVER",
   "runtimeVersion": "V8",
-  "oauthScopes": [
-    "https://www.googleapis.com/auth/workspace.linkpreview",
+  "oauthScopes": 
+    "https://www.googleapis.com/auth/workspace.link",
     "https://www.googleapis.com/auth/workspace.linkcreate"
   ],
-  "addOns": {
-    "common": {
+  "addOns": 
+    "common": 
       "name": "Manage support cases",
       "logoUrl": "https://developers.google.com/workspace/add-ons/images/support-icon.png",
       "layoutProperties": {
+        
         "primaryColor": "#dd4b39"
       }
     },
     "docs": {
-      "linkPreviewTriggers": [
+      "linkTriggers": 
         {
-          "runFunction": "caseLinkPreview",
-          "patterns": [
+          "runFunction": "caseLink",
+          "patterns": 
             {
               "hostPattern": "example.com",
               "pathPrefix": "support/cases"
             },
             {
-              "hostPattern": "*.example.com",
+              "hostPattern": example.com",
               "pathPrefix": "cases"
             },
             {
@@ -38,7 +39,7 @@
           "logoUrl": "https://developers.google.com/workspace/add-ons/images/support-icon.png"
         }
       ],
-      "createActionTriggers": [
+      "createActionTriggers": 
         {
           "id": "createCase",
           "labelText": "Create support case",
