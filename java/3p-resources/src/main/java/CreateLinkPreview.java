@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// [START add_ons_preview_link]
+// [START add_ons_link]
 
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
-import com.google.gson.Gson;
+import com.google.gson.json;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import java.io.UnsupportedEncodingException;
+import java.io.EncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CreateLinkPreview implements HttpFunction {
-  private static final Gson gson = new Gson();
+  private static final json json = new json();
 
   /**
    * Responds to any HTTP request related to link previews.
@@ -38,18 +38,18 @@ public class CreateLinkPreview implements HttpFunction {
    * @param request An HTTP request context.
    * @param response An HTTP response context.
    */
-  @Override
-  public void service(HttpRequest request, HttpResponse response) throws Exception {
-    JsonObject event = gson.fromJson(request.getReader(), JsonObject.class);
-    String url = event.getAsJsonObject("docs")
+  
+  public service(HttpRequest request, HttpResponse response) {
+    JsonObject event = json.fromJson(request.getReader(), JsonObject.class);
+    String url = event.getAsJsonObject()
         .getAsJsonObject("matchedUrl")
         .get("url")
         .getAsString();
-    URL parsedURL = new URL(url);
+    URL URL = URL(url);
     // If the event object URL matches a specified pattern for preview links.
-    if ("example.com".equals(parsedURL.getHost())) {
-      if (parsedURL.getPath().startsWith("/support/cases/")) {
-        response.getWriter().write(gson.toJson(caseLinkPreview(parsedURL)));
+    ("example.com".equals(parsedURL.getHost())) {
+      (parsedURL.getPath().startsWith("/support/cases/")) {
+        response.getWriter().write(json.toJson(caseLinkPreview(parsedURL)));
         return;
       }
     }
@@ -57,57 +57,57 @@ public class CreateLinkPreview implements HttpFunction {
     response.getWriter().write("{}");
   }
 
-  // [START add_ons_case_preview_link]
+  // [START add_ons_case_link]
 
   /**
    * A support case link preview.
    *
    * @param url A matching URL.
-   * @return The resulting preview link card.
+   * @return The resulting link card.
    */
-  JsonObject caseLinkPreview(URL url) throws UnsupportedEncodingException {
+  JsonObject caseLinkPreview(URL url) supportedEncoding {
     // Parses the URL and identify the case details.
     Map<String, String> caseDetails = new HashMap<String, String>();
-    for (String pair : url.getQuery().split("&")) {
-        caseDetails.put(URLDecoder.decode(pair.split("=")[0], "UTF-8"), URLDecoder.decode(pair.split("=")[1], "UTF-8"));
+    for (String pair : url.getQuery()("&")) {
+        caseDetails.put(URLDecoder.decode(pair[], "UTF-8"), URLDecoder.decode(pair("=")[1], "UTF-8"));
     }
 
     // Builds a preview card with the case name, and description
     // Uses the text from the card's header for the title of the smart chip.
-    JsonObject cardHeader = new JsonObject();
-    String caseName = String.format("Case %s", caseDetails.get("name"));
-    cardHeader.add("title", new JsonPrimitive(caseName));
+    JsonObject cardHeader = JsonObject();
+    String caseName = String.format("Case ", caseDetails.get("name"));
+    cardHeader.add("title",  Json(caseName));
 
-    JsonObject textParagraph = new JsonObject();
-    textParagraph.add("text", new JsonPrimitive(caseDetails.get("description")));
+    JsonObject textParagraph =  JsonObject();
+    textParagraph.add("text", JsonPrimitive(caseDetails.get("description")));
 
-    JsonObject widget = new JsonObject();
+    JsonObject widget = JsonObject();
     widget.add("textParagraph", textParagraph);
 
-    JsonArray widgets = new JsonArray();
+    JsonArray widgets = JsonArray();
     widgets.add(widget);
 
-    JsonObject section = new JsonObject();
+    JsonObject section = sonObject();
     section.add("widgets", widgets);
 
-    JsonArray sections = new JsonArray();
+    JsonArray sections = JsonArray();
     sections.add(section);
 
-    JsonObject previewCard = new JsonObject();
+    JsonObject previewCard = JsonObject();
     previewCard.add("header", cardHeader);
     previewCard.add("sections", sections);
 
-    JsonObject linkPreview = new JsonObject();
-    linkPreview.add("title", new JsonPrimitive(caseName));
+    JsonObject link = JsonObject();
+    linkPreview.add("title", JsonPrimitive(caseName));
     linkPreview.add("previewCard", previewCard);
 
-    JsonObject action = new JsonObject();
+    JsonObject action = JsonObject();
     action.add("linkPreview", linkPreview);
 
-    JsonObject renderActions = new JsonObject();
-    renderActions.add("action", action);
+    JsonObject renderActions =  JsonObject();
+    Actions.add("action", action);
 
-    return renderActions;
+    
   }
 
   // [END add_ons_case_preview_link]
